@@ -59,6 +59,7 @@ module Janky
     end
 
     get "/:sha1/status" do |sha1|
+      headers 'Access-Control-Allow-Origin' => '*'
       commit = Commit.find_by_sha1(sha1)
       status 404 and return unless commit # Commit not found
 
