@@ -59,7 +59,12 @@ module Janky
     end
 
     get "/:sha1/status" do |sha1|
-      build = Commit.find_by_sha1(sha1).last_build
+      commit = Commit.find_by_sha1(sha1)
+      status 404 and return unless commit # Commit not found
+
+      build = commit.last_build
+      status 204 and return unless build # No builds yet
+
       status (build.green ? 200 : 409)
     end
 
